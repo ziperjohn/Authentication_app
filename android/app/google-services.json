@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "471126106284",
+    "project_id": "authentication-63494",
+    "storage_bucket": "authentication-63494.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471126106284:android:3c2aa669780e32ad3a3f09",
+        "android_client_info": {
+          "package_name": "com.ziperdesign.authentication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "471126106284-p1f4lpkvsm7g40tv5bhcbfihrip50i2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNOO9erDWF1pdbHrcCZS7aanNSbNCe0HU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "471126106284-p1f4lpkvsm7g40tv5bhcbfihrip50i2c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

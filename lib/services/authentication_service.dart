@@ -15,13 +15,15 @@ class AuthenticationService {
     }
   }
 
+  //TODO Sign up with  email & password
+
   //TODO Sign in by email & password
 
-  //TODO Registration by email & password
+  //TODO Sign out
 
-  //TODO Sign in by google
+  //TODO Sign in with  google
 
-  //TODO Sign in by Facebook
+  //TODO Sign in with  Facebook
 
-  //TODO Sign in by Apple
+  //TODO Sign in with  Apple
 }

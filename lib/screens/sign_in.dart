@@ -1,15 +1,14 @@
+import 'package:authentication/controllers/authentication_controller.dart';
 import 'package:authentication/screens/sign_up.dart';
-import 'package:authentication/services/authentication_service.dart';
 import 'package:authentication/widgets/Button.dart';
 import 'package:authentication/widgets/input.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mdi/mdi.dart';
 
-class SignIn extends StatelessWidget {
+class SignIn extends GetWidget<AuthenticationController> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final AuthenticationService _authentication = AuthenticationService();
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +64,12 @@ class SignIn extends StatelessWidget {
 
   void _signInWithGoogle() {
     print("Sign in with Google");
+    print(controller.user?.uid);
   }
 
   void _loginAnonymously() async {
-    print(await _authentication.signInAnonymously());
+    var user = await controller.signInAnonymously();
+    print(user.uid);
   }
 
   void _goToSignUp() {

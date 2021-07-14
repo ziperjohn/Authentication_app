@@ -1,7 +1,7 @@
 import 'package:authentication/controllers/authentication_controller.dart';
 import 'package:authentication/screens/sign_up.dart';
-import 'package:authentication/widgets/Button.dart';
-import 'package:authentication/widgets/input.dart';
+import 'package:authentication/widgets/Buttons.dart';
+import 'package:authentication/widgets/inputs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mdi/mdi.dart';
@@ -34,11 +34,11 @@ class SignIn extends GetWidget<AuthenticationController> {
   }
 
   Widget _emailInput() {
-    return textInput(_emailController, "Email");
+    return textInput(_emailController, "Email", false);
   }
 
   Widget _passwordInput() {
-    return textInput(_passwordController, "Password");
+    return textInput(_passwordController, "Password", true);
   }
 
   Widget _signInButton() {
@@ -58,18 +58,14 @@ class SignIn extends GetWidget<AuthenticationController> {
     return textButton(_goToSignUp, "Sign Up");
   }
 
-  void _signIn() {
-    print("Sign in with Email");
+  void _signIn() async {
+    await controller.signIn(_emailController.text, _passwordController.text);
   }
 
-  void _signInWithGoogle() {
-    print("Sign in with Google");
-    print(controller.user?.uid);
-  }
+  void _signInWithGoogle() {}
 
   void _loginAnonymously() async {
-    var user = await controller.signInAnonymously();
-    print(user.uid);
+    await controller.signInAnonymously();
   }
 
   void _goToSignUp() {

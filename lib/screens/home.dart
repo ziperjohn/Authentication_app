@@ -1,5 +1,5 @@
 import 'package:authentication/controllers/authentication_controller.dart';
-import 'package:authentication/widgets/Button.dart';
+import 'package:authentication/widgets/Buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +11,7 @@ class Home extends GetWidget<AuthenticationController> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Home"),
+          centerTitle: true,
         ),
         body: Container(
           child: Center(

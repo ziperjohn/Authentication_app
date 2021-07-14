@@ -1,6 +1,7 @@
 import 'package:authentication/models/user_model.dart';
+import 'package:authentication/widgets/snackbars.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 
 class AuthenticationController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -19,35 +20,62 @@ class AuthenticationController extends GetxController {
     return UserModel(uid: user?.uid);
   }
 
+  // passwords validation
+  bool _passwordsValidation(String password, String confirmPassword) {
+    return password == confirmPassword ? true : false;
+  }
+
   //Sign in anonymously, Firebase create a new user that will be persisted across app restart.
   //If the user signs in anonymously multiple times, they will be signed-in with the initially created account.
-  Future<dynamic> signInAnonymously() async {
+  Future<void> signInAnonymously() async {
     try {
       UserCredential userCredential = await _auth.signInAnonymously();
-      return createCustomUser(userCredential.user);
+      createCustomUser(userCredential.user);
     } on FirebaseAuthException catch (error) {
-      print(error);
-      return null;
+      showSnackbar(error.code, error.message.toString());
     }
   }
 
-  //TODO Sign up with  email & password
+  //Sign up with email & password
+  Future<void> signUp(
+      String email, String password, String confirmPassword) async {
+    if (_passwordsValidation(password, confirmPassword)) {
+      try {
+        UserCredential userCredential = await _auth
+            .createUserWithEmailAndPassword(email: email, password: password);
+        createCustomUser(userCredential.user);
+        Get.back();
+      } on FirebaseAuthException catch (error) {
+        showSnackbar(error.code, error.message.toString());
+      }
+    } else {
+      showSnackbar("Error", "Passwords don't match");
+    }
+  }
 
-  //TODO Sign in by email & password
+  //Sign in with email & password
+  Future<void> signIn(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      createCustomUser(userCredential.user);
+    } on FirebaseAuthException catch (error) {
+      showSnackbar(error.code, error.message.toString());
+    }
+  }
 
-  //TODO Sign out
-
-  void signOut() async {
+  //Sing out
+  Future<void> signOut() async {
     try {
       await _auth.signOut();
     } on FirebaseAuthException catch (error) {
-      print(error);
+      showSnackbar(error.code, error.message.toString());
     }
   }
 
-  //TODO Sign in with  google
+  //TODO Sign in with google
 
-  //TODO Sign in with  Facebook
+  //TODO Sign in with Facebook
 
-  //TODO Sign in with  Apple
+  //TODO Sign in with Apple
 }

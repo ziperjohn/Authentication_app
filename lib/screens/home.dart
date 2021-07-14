@@ -13,18 +13,29 @@ class Home extends GetWidget<AuthenticationController> {
           title: Text("Home"),
           centerTitle: true,
         ),
-        body: Container(
-          child: Center(
-              child: Column(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              elevationButton(() {
-                print(controller.user?.uid);
-              }, "UID"),
-              elevationButton(() {
-                controller.signOut();
-              }, "Sign Out"),
+              Obx(() {
+                return Column(
+                  children: [
+                    Text("User UID: ${controller.user?.uid}"),
+                    Text("User E-mail: ${controller.user?.email}"),
+                  ],
+                );
+              }),
+              _signOutButton(),
             ],
-          )),
+          ),
         ));
+  }
+
+  Widget _signOutButton() {
+    return elevationButton(_signOut, "Sign Out");
+  }
+
+  void _signOut() {
+    controller.signOut();
   }
 }

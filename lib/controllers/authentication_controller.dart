@@ -2,6 +2,7 @@ import 'package:authentication/models/user_model.dart';
 import 'package:authentication/widgets/snackbars.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -17,7 +18,7 @@ class AuthenticationController extends GetxController {
   }
 
   UserModel createCustomUser(User? user) {
-    return UserModel(uid: user?.uid);
+    return UserModel(uid: user?.uid, email: user?.email);
   }
 
   // passwords validation
@@ -30,6 +31,7 @@ class AuthenticationController extends GetxController {
   Future<void> signInAnonymously() async {
     try {
       UserCredential userCredential = await _auth.signInAnonymously();
+      // Create custom user
       createCustomUser(userCredential.user);
     } on FirebaseAuthException catch (error) {
       showSnackbar(error.code, error.message.toString());
@@ -43,6 +45,7 @@ class AuthenticationController extends GetxController {
       try {
         UserCredential userCredential = await _auth
             .createUserWithEmailAndPassword(email: email, password: password);
+        // Create custom user
         createCustomUser(userCredential.user);
         Get.back();
       } on FirebaseAuthException catch (error) {
@@ -58,6 +61,7 @@ class AuthenticationController extends GetxController {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
+      // Create custom user
       createCustomUser(userCredential.user);
     } on FirebaseAuthException catch (error) {
       showSnackbar(error.code, error.message.toString());
@@ -73,7 +77,32 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  //TODO Sign in with google
+  //TODO Register app and create SHA1 fingerprint
+  //Sign in with google
+  Future<void> signInWithGoogle() async {
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      // Once signed in, return the UserCredential
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Create custom user
+      createCustomUser(userCredential.user);
+    } on FirebaseAuthException catch (error) {
+      showSnackbar(error.code, error.message.toString());
+    }
+  }
 
   //TODO Sign in with Facebook
 

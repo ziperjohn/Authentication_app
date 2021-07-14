@@ -62,7 +62,9 @@ class SignIn extends GetWidget<AuthenticationController> {
     await controller.signIn(_emailController.text, _passwordController.text);
   }
 
-  void _signInWithGoogle() {}
+  void _signInWithGoogle() async {
+    await controller.signInWithGoogle();
+  }
 
   void _loginAnonymously() async {
     await controller.signInAnonymously();
